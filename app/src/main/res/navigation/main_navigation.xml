@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/booksSearchListFragment">
+
+    <fragment
+        android:id="@+id/booksSearchListFragment"
+        android:name="com.tarobu612.bookssearchapp.ui.bookssearchlist.BooksSearchListFragment"
+        android:label="BooksSearchListFragment"
+        tools:layout="@layout/books_search_list_fragment">
+
+        <action
+            android:id="@+id/action_booksSearchListFragment_to_BookDetailFragment"
+            app:destination="@id/BookDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/BookDetailFragment"
+        android:name="com.tarobu612.bookssearchapp.ui.bookdetail.BookDetailFragment"
+        android:label="BookDetailFragment"
+        tools:layout="@layout/book_detail_fragment">
+
+        <action
+            android:id="@+id/action_BookDetailFragment_to_booksSearchListFragment"
+            app:destination="@id/booksSearchListFragment" />
+    </fragment>
+
+</navigation>
