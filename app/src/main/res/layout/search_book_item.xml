@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="@id/title"
+            tools:text="subtitle" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/reviewCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="start"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/thumbnail"
+            app:layout_constraintTop_toTopOf="@id/thumbnail"
+            tools:text="15" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/reviewCountSign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="start"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/reviewCount"
+            app:layout_constraintTop_toTopOf="@id/reviewCount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/reviewCount"
+            tools:text="レビュー" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="start"
+            app:layout_constraintStart_toStartOf="@id/reviewCount"
+            app:layout_constraintTop_toBottomOf="@id/reviewCount"
+            tools:text="150" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pageCountSign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="start"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/pageCount"
+            app:layout_constraintTop_toTopOf="@id/pageCount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/pageCount"
+            tools:text="ページ" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/authors"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textSize="15sp"
+            android:gravity="start|bottom"
+            app:layout_constraintStart_toStartOf="@id/reviewCount"
+            app:layout_constraintTop_toBottomOf="@id/pageCount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/thumbnail"
+            tools:text="鈴木五郎, 佐藤哲郎" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHeight_min="20dp"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="巨人がすべてを支配する世界。巨人の餌と化した人類は、巨大な壁を築き、壁外への自由と引き換えに侵略を防いでいた。だが、名ばかりの平和は壁を越える大巨人の出現により崩れ、絶望の闘いが始まってしまう。" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

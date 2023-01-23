@@ -49,6 +49,19 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigationVersion"
 
+    // Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit2Version"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
+
+    // Moshi
+    implementation 'com.squareup.moshi:moshi:1.8.0'
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
