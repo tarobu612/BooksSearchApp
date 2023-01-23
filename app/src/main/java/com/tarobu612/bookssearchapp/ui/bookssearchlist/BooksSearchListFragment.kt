@@ -14,6 +14,7 @@ import com.tarobu612.bookssearchapp.R
 import com.tarobu612.bookssearchapp.databinding.BooksSearchListFragmentBinding
 import com.tarobu612.bookssearchapp.repository.GoogleBooksRepository
 import com.tarobu612.bookssearchapp.repository.RakutenBooksBookRepository
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListDisplayType
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListItem
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabListener
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabType
@@ -58,6 +59,12 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
         setUpList()
         activity.setUpSearchBar(this)
         activity.setSearchTabListener(this)
+
+        binding.displaySwitch.setOnCheckedChangeListener { _, isChecked ->
+            val option =
+                if (isChecked) SearchListDisplayType.LIST else SearchListDisplayType.SHELVES
+            booksSearchListAdapter?.switchDisplayOption(option)
+        }
 
         presenter.start()
     }

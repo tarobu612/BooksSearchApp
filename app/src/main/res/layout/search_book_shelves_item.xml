@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/first_image"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/second_image"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/third_image"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/forth_image"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
