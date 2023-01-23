@@ -7,13 +7,45 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.google.android.material.tabs.TabLayout
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.SearchViewListener
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.SearchViewQueryTextListener
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabListener
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabType
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var searchTabListener: SearchTabListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val tabLayout = findViewById<TabLayout>(R.id.books_search_list_tab)
+        tabLayout.addOnTabSelectedListener(
+            object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    val searchWord = findViewById<SearchView>(R.id.searchView).query.toString()
+
+                    when (tab?.text) {
+                        // TODO とりあえず文字列一致
+                        "Google" -> {
+                            searchTabListener.onChanged(SearchTabType.GOOGLE, searchWord)
+                        }
+                        "楽天" -> {
+                            searchTabListener.onChanged(SearchTabType.RAKUTEN, searchWord)
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    // empty
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    // empty
+                }
+            }
+        )
     }
 
     fun showLoading() {
@@ -38,6 +70,10 @@ class MainActivity : AppCompatActivity() {
     fun clearSearchBar() {
         val searchView = findViewById<SearchView>(R.id.searchView)
         searchView.setOnQueryTextListener(null)
+    }
+
+    fun setSearchTabListener(listener: SearchTabListener) {
+        this.searchTabListener = listener
     }
 
 }

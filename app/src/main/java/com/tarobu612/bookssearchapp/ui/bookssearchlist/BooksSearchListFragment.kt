@@ -2,7 +2,6 @@ package com.tarobu612.bookssearchapp.ui.bookssearchlist
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,13 @@ import com.tarobu612.bookssearchapp.MainActivity
 import com.tarobu612.bookssearchapp.R
 import com.tarobu612.bookssearchapp.databinding.BooksSearchListFragmentBinding
 import com.tarobu612.bookssearchapp.repository.GoogleBooksRepository
+import com.tarobu612.bookssearchapp.repository.RakutenBooksBookRepository
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListItem
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabListener
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchTabType
 
-class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, SearchViewListener {
+class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, SearchViewListener,
+    SearchTabListener {
     private var _binding: BooksSearchListFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -26,12 +29,15 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
 
     private var booksSearchListAdapter: BooksSearchListAdapter? = null
 
+    private var currentTab: SearchTabType = SearchTabType.GOOGLE
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         presenter = BooksSearchListPresenter(
             output = this,
-            googleBooksRepository = GoogleBooksRepository.getInstance()
+            googleBooksRepository = GoogleBooksRepository.getInstance(),
+            rakutenBooksBookRepository = RakutenBooksBookRepository.getInstance()
         )
 
         activity = context as MainActivity
@@ -51,6 +57,7 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
 
         setUpList()
         activity.setUpSearchBar(this)
+        activity.setSearchTabListener(this)
 
         presenter.start()
     }
@@ -67,7 +74,7 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
     }
 
     override fun showNoBooksList() {
-        Log.d(TAG, "showNoBooksList")
+        booksSearchListAdapter?.updateList(listOf())
     }
 
     override fun showLoading() {
@@ -79,7 +86,15 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
     }
 
     override fun onSearch(query: String) {
-        presenter.startSearch(query)
+        presenter.startSearch(query, currentTab)
+    }
+
+    override fun onChanged(changedTabType: SearchTabType, searchWord: String) {
+        if (searchWord.isNotEmpty()) {
+            presenter.startSearch(searchWord, changedTabType)
+        }
+
+        currentTab = changedTabType
     }
 
     private fun setUpList() {
@@ -107,10 +122,6 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
 
             adapter = BooksSearchListAdapter(listOf()).also { booksSearchListAdapter = it }
         }
-    }
-
-    companion object {
-        private const val TAG: String = "BooksSearchListFragment"
     }
 
 }

@@ -7,11 +7,11 @@ data class SearchListItem(
     val publishedDate: String,
     val description: String,
     val pageCount: Int,
-    val printType: PrintType,
+    val printType: PrintType? = null,
     val reviewAverage: Long,
     val reviewCount: Int,
     val thumbnail: String,
-    val language: BookLanguage,
-    val previewLink: String,
+    val language: BookLanguage? = null,
+    val previewLink: String? = null,
     val infoLink: String
 )
