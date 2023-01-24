@@ -2,6 +2,7 @@ buildscript {
     ext.kotlinVersion = '1.7.20'
     ext.navigationVersion = '2.5.3'
     ext.retrofit2Version = '2.9.0'
+    ext.junit5Version = '5.6.2'
 
     repositories {
         google()

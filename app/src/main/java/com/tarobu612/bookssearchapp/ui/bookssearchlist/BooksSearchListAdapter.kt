@@ -2,6 +2,7 @@ package com.tarobu612.bookssearchapp.ui.bookssearchlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -57,7 +58,7 @@ class BooksSearchListAdapter(
                 holder.bind(data[position])
             }
             is SearchShelvesItemViewHolder -> {
-                val set = mapThreeOfEach(data)
+                val set = mapFourOfEach(data)
                 holder.bind(set[position])
             }
             is NoItemViewHolder -> {
@@ -66,20 +67,7 @@ class BooksSearchListAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return when (displayOption) {
-            SearchListDisplayType.LIST -> {
-                data.count()
-            }
-            SearchListDisplayType.SHELVES -> {
-                if (data.count() % 4 == 0) {
-                    data.count() / 4
-                } else {
-                    (data.count() / 4) + 1
-                }
-            }
-        }
-    }
+    override fun getItemCount() = getListItemCount(data, displayOption)
 
     fun updateList(newList: List<SearchListItem>) {
         this.data = newList
@@ -92,13 +80,35 @@ class BooksSearchListAdapter(
         notifyDataSetChanged()
     }
 
-    private fun mapThreeOfEach(data: List<SearchListItem>): List<ShelvesLine> {
+    @VisibleForTesting
+    fun getListItemCount(
+        items: List<SearchListItem>,
+        displayOption: SearchListDisplayType
+    ) = when (displayOption) {
+        SearchListDisplayType.LIST -> {
+            items.count()
+        }
+        SearchListDisplayType.SHELVES -> {
+            if (items.count() % 4 == 0) {
+                items.count() / 4
+            } else {
+                (items.count() / 4) + 1
+            }
+        }
+    }
+
+    @VisibleForTesting
+    fun mapFourOfEach(data: List<SearchListItem>): List<ShelvesLine> {
         val result: MutableList<ShelvesLine> = mutableListOf()
         var line = ShelvesLine()
 
         data.forEachIndexed { index, searchListItem ->
             when (index % 4) {
                 0 -> {
+                    if (line.first != null) {
+                        result.add(line)
+                        line = ShelvesLine()
+                    }
                     line.first = searchListItem.thumbnail
                 }
                 1 -> {
@@ -114,13 +124,10 @@ class BooksSearchListAdapter(
 
             if (data.count() - 1 == index) {
                 result.add(line)
-            } else if (line.first.isNotEmpty()) {
-                result.add(line)
-                line = ShelvesLine()
             }
         }
 
-        return result
+        return result.toList()
     }
 
     class SearchListItemViewHolder(
@@ -187,8 +194,8 @@ class BooksSearchListAdapter(
             setImage(line.forth, forthImage)
         }
 
-        private fun setImage(imageUrl: String, view: AppCompatImageView) {
-            if (imageUrl.isEmpty()) {
+        private fun setImage(imageUrl: String?, view: AppCompatImageView) {
+            if (imageUrl.isNullOrEmpty()) {
                 return
             }
 
@@ -221,10 +228,10 @@ class BooksSearchListAdapter(
     }
 
     data class ShelvesLine(
-        var first: String = "",
-        var second: String = "",
-        var third: String = "",
-        var forth: String = "",
+        var first: String? = null,
+        var second: String? = null,
+        var third: String? = null,
+        var forth: String? = null,
     )
 
 }
