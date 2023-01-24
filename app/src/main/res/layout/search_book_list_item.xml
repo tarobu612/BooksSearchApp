@@ -92,11 +92,13 @@
             android:layout_height="0dp"
             android:textSize="15sp"
             android:gravity="start|bottom"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="@id/reviewCount"
             app:layout_constraintTop_toBottomOf="@id/pageCount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/thumbnail"
-            tools:text="鈴木五郎, 佐藤哲郎" />
+            tools:text="鈴木五郎, 佐藤哲郎, 鈴木五郎, 佐藤哲郎, 鈴木五郎, 佐藤哲郎" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/description"
