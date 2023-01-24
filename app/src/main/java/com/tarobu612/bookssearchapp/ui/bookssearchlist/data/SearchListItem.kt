@@ -14,4 +14,4 @@ data class SearchListItem(
     val language: BookLanguage? = null,
     val previewLink: String? = null,
     val infoLink: String
-)
+) : SearchItem

@@ -12,17 +12,16 @@ import com.tarobu612.bookssearchapp.R
 import com.tarobu612.bookssearchapp.databinding.NoBookItemBinding
 import com.tarobu612.bookssearchapp.databinding.SearchBookListItemBinding
 import com.tarobu612.bookssearchapp.databinding.SearchBookShelvesItemBinding
-import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListDisplayType
-import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListItem
+import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.*
 
 class BooksSearchListAdapter(
-    private var data: List<SearchListItem>,
+    private var data: List<SearchItem>,
     private var displayOption: SearchListDisplayType = SearchListDisplayType.LIST
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when {
-            data.isEmpty() -> {
+        return when (viewType) {
+            SearchRecyclerViewType.NO_ITEM.value -> {
                 NoItemViewHolder(
                     NoBookItemBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -31,7 +30,7 @@ class BooksSearchListAdapter(
                     )
                 )
             }
-            else -> {
+            SearchRecyclerViewType.EXIST_ITEM.value -> {
                 when (displayOption) {
                     SearchListDisplayType.LIST -> SearchListItemViewHolder(
                         SearchBookListItemBinding.inflate(
@@ -49,13 +48,14 @@ class BooksSearchListAdapter(
                     )
                 }
             }
+            else -> throw Exception("unexpected case")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SearchListItemViewHolder -> {
-                holder.bind(data[position])
+                holder.bind(data[position] as SearchListItem)
             }
             is SearchShelvesItemViewHolder -> {
                 val set = mapFourOfEach(data)
@@ -67,10 +67,20 @@ class BooksSearchListAdapter(
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return when (data[position]) {
+            is NoSearchListItem -> SearchRecyclerViewType.NO_ITEM.value
+            is SearchListItem -> SearchRecyclerViewType.EXIST_ITEM.value
+            else -> super.getItemViewType(position)
+        }
+    }
+
     override fun getItemCount() = getListItemCount(data, displayOption)
 
     fun updateList(newList: List<SearchListItem>) {
-        this.data = newList
+        this.data = newList.ifEmpty {
+            listOf(NoSearchListItem())
+        }
         notifyDataSetChanged()
     }
 
@@ -78,7 +88,7 @@ class BooksSearchListAdapter(
 
     @VisibleForTesting
     fun getListItemCount(
-        items: List<SearchListItem>,
+        items: List<SearchItem>,
         displayOption: SearchListDisplayType
     ) = when (displayOption) {
         SearchListDisplayType.LIST -> {
@@ -94,27 +104,27 @@ class BooksSearchListAdapter(
     }
 
     @VisibleForTesting
-    fun mapFourOfEach(data: List<SearchListItem>): List<ShelvesLine> {
+    fun mapFourOfEach(data: List<SearchItem>): List<ShelvesLine> {
         val result: MutableList<ShelvesLine> = mutableListOf()
         var line = ShelvesLine()
 
-        data.forEachIndexed { index, searchListItem ->
+        data.forEachIndexed { index, searchItem ->
             when (index % 4) {
                 0 -> {
                     if (line.first != null) {
                         result.add(line)
                         line = ShelvesLine()
                     }
-                    line.first = searchListItem.thumbnail
+                    line.first = (searchItem as? SearchListItem)?.thumbnail
                 }
                 1 -> {
-                    line.second = searchListItem.thumbnail
+                    line.second = (searchItem as? SearchListItem)?.thumbnail
                 }
                 2 -> {
-                    line.third = searchListItem.thumbnail
+                    line.third = (searchItem as? SearchListItem)?.thumbnail
                 }
                 3 -> {
-                    line.forth = searchListItem.thumbnail
+                    line.forth = (searchItem as? SearchListItem)?.thumbnail
                 }
             }
 
