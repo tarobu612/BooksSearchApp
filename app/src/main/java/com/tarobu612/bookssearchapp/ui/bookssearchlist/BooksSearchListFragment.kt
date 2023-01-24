@@ -61,9 +61,16 @@ class BooksSearchListFragment : Fragment(), BooksSearchListContract.View, Search
         activity.setSearchTabListener(this)
 
         binding.displaySwitch.setOnCheckedChangeListener { _, isChecked ->
-            val option =
-                if (isChecked) SearchListDisplayType.LIST else SearchListDisplayType.SHELVES
-            booksSearchListAdapter?.switchDisplayOption(option)
+            val option = if (isChecked) {
+                SearchListDisplayType.SHELVES
+            } else {
+                SearchListDisplayType.LIST
+            }
+            val data = booksSearchListAdapter?.getCurrentAllData() ?: return@setOnCheckedChangeListener
+
+            binding.booksSearchList.adapter = BooksSearchListAdapter(data, option).also {
+                booksSearchListAdapter = it
+            }
         }
 
         presenter.start()

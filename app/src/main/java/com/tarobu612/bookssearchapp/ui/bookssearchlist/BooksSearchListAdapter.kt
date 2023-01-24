@@ -16,9 +16,9 @@ import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListDisplayTyp
 import com.tarobu612.bookssearchapp.ui.bookssearchlist.data.SearchListItem
 
 class BooksSearchListAdapter(
-    private var data: List<SearchListItem>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var data: List<SearchListItem>,
     private var displayOption: SearchListDisplayType = SearchListDisplayType.LIST
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when {
@@ -74,11 +74,7 @@ class BooksSearchListAdapter(
         notifyDataSetChanged()
     }
 
-    // TODO 動作未確認
-    fun switchDisplayOption(displayOption: SearchListDisplayType) {
-        this.displayOption = displayOption
-        notifyDataSetChanged()
-    }
+    fun getCurrentAllData() = data
 
     @VisibleForTesting
     fun getListItemCount(
