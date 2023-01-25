@@ -33,7 +33,7 @@ data class RakutenBooksBookResponse(
 ) {
     data class ItemInfo(
         @field:Json(name = "Item")
-        val item: Item
+        val item: Item?
     )
 
     data class Item(
